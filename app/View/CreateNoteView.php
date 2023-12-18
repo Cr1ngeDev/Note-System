@@ -2,8 +2,8 @@
 <?php require 'templates/nav.php' ?>
 <?php require 'templates/banner.php' ?>
 <?php
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
+$errors = $_SESSION['error'] ?? [];
+unset($_SESSION['error']);
 ?>
 <main>
         <div class="mx-auto mb-10 max-w-7xl py-6 sm:px-6 lg:px-8">
@@ -28,7 +28,7 @@ unset($_SESSION['errors']);
                         </button>
                 </form>
         </div>
-        <div style="width: 100%; display: flex; justify-content: center; align-items: center">
+        <div style="width: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column">
             <?php if (!empty($errors)): ?>
                 <?php foreach ($errors as $error): ?>
                             <div class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"

@@ -9,9 +9,11 @@ function get_db_config() :string
    return  "mysql:" . http_build_query($config, '', ';');
 }
 
-function connect($user = 'root', $password = '') :PDO
+function connect() :PDO
 {
     $dsn = get_db_config();
+    $user = 'root';
+    $password = '0375Ihor_';
     try {
         $pdo = new PDO($dsn, $user, $password);
 

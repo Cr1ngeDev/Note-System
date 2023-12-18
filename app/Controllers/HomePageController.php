@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $header = "Your Notes";
 
@@ -6,12 +7,15 @@ $all_notes = [];
 
 $user_id = 1; // временно
 
-$pdo = connect('root', '0375Ihor_');
+$pdo = connect();
 
-if($_SERVER['REQUEST_METHOD'] == "GET"){
-   $all_notes = set_query($pdo, 'SELECT c.text, p.note_name, p.createdAt FROM note_content AS c 
+if(is_get_request()){
+   $all_notes = set_query($pdo, 'SELECT c.text, p.note_name, p.createdAt,  p.id FROM note_content AS c 
                                 JOIN note_preview AS p WHERE p.id = c.preview_id AND p.user_id = :user_id',
-   [':user_id'=>$user_id])->fetchAll(PDO::FETCH_ASSOC);
+   [
+       ':user_id' => $user_id
+   ])->fetchAll(PDO::FETCH_ASSOC);
+
 }
 function getFirstSentence(string $text) :string
 {

@@ -37,11 +37,11 @@
                                                                     <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                                                                             <p><?=htmlspecialchars($note['note_name'])?></p>
                                                                     </h3>
-                                                                    <span class="text-gray-500 dark:text-gray-400">Created at: <?=$note['createdAt'] ?? ''?></span>
+                                                                    <span class="text-gray-500 dark:text-gray-400">Created at: <?=$note['createdAt'] ?? 'recently'?></span>
                                                                     <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">
                                                                         <?=htmlspecialchars(getFirstSentence($note['text']) . '...')?></p>
                                                                     <a style="text-decoration: underline; color: dodgerblue"
-                                                                       href="#">Show note...</a>
+                                                                       href="/note/<?=$note['id'] ?? null?>">Show note...</a>
                                                             </div>
                                                     </div>
                                             <?php endforeach; ?>
