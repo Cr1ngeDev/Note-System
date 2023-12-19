@@ -1,7 +1,6 @@
 <?php require 'templates/header.html' ?>
 <?php require 'templates/nav.php'; ?>
 <?php require 'templates/banner.php' ?>
-
         <main>
             <?php if (empty($all_notes)): ?>
                     <div class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">

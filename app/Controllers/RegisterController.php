@@ -24,11 +24,14 @@ if(is_post_request()){
     if(!empty($errors)){
         redirect_with('/ahh-another-user', ['inputs' => $userData, 'errors' => $errors]);
     }
+    $now = new DateTime();
+    $createdAt = $now->format('Y-m-d G:s:i');
     $saveUserData = [
         'email'     => $_POST['email'],
         'password'  => password_hash($_POST['password'], PASSWORD_BCRYPT),
         'firstname' => trim($_POST['firstname']),
         'lastname'  => trim($_POST['lastname']),
+        'createdAt' => $createdAt
     ];
 
     register($saveUserData);

@@ -2,10 +2,9 @@
 function abort($status = 404)
 {
     http_response_code($status);
-    require "View/error_pages/{$status}.php";
+    require "View/error_pages/$status.php";
     exit;
 }
-
 function getNoteId($url): string|false
 {
     if(preg_match('/\/note\/(\d+)/', $url, $matches)){
@@ -13,7 +12,17 @@ function getNoteId($url): string|false
     }
     return false;
 }
+function isUserLoggedIn(): bool
+{
+    return isset($_SESSION['user']);
+}
 
+function requireLogin(): void
+{
+    if(!isUserLoggedIn()){
+        redirect('/login');
+    }
+}
 function dd($value)
 {
     echo "<pre>";
@@ -109,7 +118,7 @@ function show_all_flash() :void
         return;
     }
     $flash_message = $_SESSION[FLASH];
-    unset($_SESSION[FLASH][$name]);
+    unset($_SESSION[FLASH]);
 
     foreach ($flash_message as $message){
         echo format_flash_message($message);

@@ -22,7 +22,4 @@ function getFirstSentence(string $text) :string
     preg_match('/^(.{1,25}[^,]*[.!?\s])/', $text, $matches);
     return $matches[0] ?? '';
 }
-
 require VIEW_DIR . "HomePageView.php";
-
-// добавить авторизацию

@@ -30,9 +30,10 @@ if(is_post_request()) {
     $createdAt = $time->format('Y-m-d G:i:s');
     try{
         $pdo->beginTransaction();
-        set_query($pdo,"INSERT INTO note_preview(note_name, user_id, createdAt) VALUES (:note_name, 1, :createdAt)",
+        set_query($pdo,"INSERT INTO note_preview(note_name, user_id, createdAt) VALUES (:note_name, :user_id, :createdAt)",
             [
                 ':note_name' => $title,
+                ':user_id'   => $user_id,
                 ':createdAt' => $createdAt
             ]
         );
