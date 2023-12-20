@@ -2,6 +2,8 @@
 <?php require 'templates/nav.php'; ?>
 <?php require 'templates/banner.php' ?>
         <main>
+
+            <?php show_flash('logout') ?>
             <?php if (empty($all_notes)): ?>
                     <div class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
                             <div class="text-center">
@@ -29,22 +31,23 @@
                                                     with the
                                                     utility classes from Tailwind</p>
                                     </div>
-                                        <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-2">
-                                            <?php foreach ($all_notes as $note): ?>
-                                                    <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
-                                                            <div class="p-5">
-                                                                    <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                                                            <p><?=htmlspecialchars($note['note_name'])?></p>
-                                                                    </h3>
-                                                                    <span class="text-gray-500 dark:text-gray-400">Created at: <?=$note['createdAt'] ?? 'recently'?></span>
-                                                                    <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">
-                                                                        <?=htmlspecialchars(getFirstSentence($note['text']) . '...')?></p>
-                                                                    <a style="text-decoration: underline; color: dodgerblue"
-                                                                       href="/note/<?=$note['id'] ?? null?>">Show note...</a>
-                                                            </div>
-                                                    </div>
-                                            <?php endforeach; ?>
-                                        </div>
+                                    <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-2">
+                                        <?php foreach ($all_notes as $note): ?>
+                                                <div class="items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
+                                                        <div class="p-5">
+                                                                <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                                                        <p><?= htmlspecialchars($note['note_name']) ?></p>
+                                                                </h3>
+                                                                <span class="text-gray-500 dark:text-gray-400">Created at: <?= $note['createdAt'] ?? 'recently' ?></span>
+                                                                <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">
+                                                                    <?= htmlspecialchars(getFirstSentence($note['text']) . '...') ?></p>
+                                                                <a style="text-decoration: underline; color: dodgerblue"
+                                                                   href="/note/<?= $note['id'] ?? null ?>">Show
+                                                                        note...</a>
+                                                        </div>
+                                                </div>
+                                        <?php endforeach; ?>
+                                    </div>
                             </div>
                     </section>
 

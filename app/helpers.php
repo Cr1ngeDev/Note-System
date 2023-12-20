@@ -7,7 +7,7 @@ function abort($status = 404)
 }
 function getNoteId($url): string|false
 {
-    if(preg_match('/\/note\/(\d+)/', $url, $matches)){
+    if(preg_match('/\/note\/(\d+)|\/note\/(\d+)\//', $url, $matches)){
         return $matches[1];
     }
     return false;
@@ -16,7 +16,17 @@ function isUserLoggedIn(): bool
 {
     return isset($_SESSION['user']);
 }
-
+function getFromSession(...$keys)
+{
+    $currentSession = $_SESSION;
+    foreach ($keys as $key) {
+        if (!isset($currentSession[$key])) {
+            return false; // Key not found in the session
+        }
+        $currentSession = $currentSession[$key];
+    }
+    return $currentSession;
+}
 function requireLogin(): void
 {
     if(!isUserLoggedIn()){

@@ -1,5 +1,6 @@
 <?php
 session_start();
+requireLogin();
 require 'app/Kernel/Validation/validationFunction.php';
 
 $header = "Create Note";
@@ -28,6 +29,7 @@ if(is_post_request()) {
 
     $time = new DateTime();
     $createdAt = $time->format('Y-m-d G:i:s');
+    $user_id = getFromSession('user', 'user_id')[0];
     try{
         $pdo->beginTransaction();
         set_query($pdo,"INSERT INTO note_preview(note_name, user_id, createdAt) VALUES (:note_name, :user_id, :createdAt)",
@@ -51,5 +53,4 @@ if(is_post_request()) {
     }
 
 }
-
 require VIEW_DIR . 'CreateNoteView.php';

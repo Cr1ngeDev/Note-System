@@ -16,6 +16,7 @@ function login(string $email, string $password): bool
     if($userData && password_verify($password, $userData['password'])){
         session_regenerate_id();
         $_SESSION['user'] = [
+            'user_id'   => $userData['user_id'],
             'firstname' => $userData['firstname'],
             'lastname'  => $userData['lastname'],
             'email'     => $userData['email']
