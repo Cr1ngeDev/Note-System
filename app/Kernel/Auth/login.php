@@ -7,6 +7,8 @@ function findUserByEmail(string $email): array|false
         $userData = set_query($pdo,$sql, ['email' => $email])->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         return false;
+    } finally {
+        $pdo = null;
     }
     return $userData;
 }

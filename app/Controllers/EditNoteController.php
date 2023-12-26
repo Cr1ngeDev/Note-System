@@ -1,14 +1,16 @@
 <?php
 session_start();
 require KERNEL_DIR . 'Validation/validationFunction.php';
+requireLogin();
 
 $header = "Edit Note";
-$old_data = session_flash('noteData')[0];
+$old_data = getFromSession('noteData');
+$noteId = getNoteId($url);
+$response_id = $old_data['note_id'] ?? null;
+sameOwnerOfNote($response_id, $noteId);
+
 if(is_post_request()){
     $pdo = connect();
-
-    $url = parse_url($_SERVER['REQUEST_URI'])['path'];
-    $noteId = getNoteId($url);
 
     $title = $_POST['newTitle'] ?? null;
     $content = $_POST['newContent'];
@@ -49,6 +51,8 @@ if(is_post_request()){
 
         $pdo->commit();
         $message = 'Your note has been successfully updated!';
+        session_flash('userData');
+        $pdo = null;
         redirect_with_message('/note/' . $noteId, 'edited', $message, FLASH_SUCCESS);
     } catch (PDOException $e) {
         $pdo->rollBack();

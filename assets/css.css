@@ -10,6 +10,26 @@
     outline: none;
 }
 
+.lockIcon {
+    width: 1.30em;
+    height: 1.30em;
+    color: red;
+    float: right;
+}
+
+.lockIcon:hover {
+    cursor: pointer;
+}
+.unlockIcon {
+    display: none;
+    width: 1.30em;
+    height: 1.30em;
+    color: green;
+    float: right;
+}
+.unlockIcon:hover {
+    cursor: pointer;
+}
 .dropbtn:hover {
     background-color: #283593; /* Замените на ваш цвет hover:bg-primary-800 */
 }
@@ -64,4 +84,55 @@
 .dropdown-content a:hover {background-color: #ddd;}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
+.show {
+    display:block;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    cursor: pointer;
+}
+
+/* Анимация появления модального окна */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Стили для кнопки открытия модального окна */
+button {
+    padding: 10px;
+    font-size: 16px;
+}

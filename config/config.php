@@ -9,3 +9,5 @@ const FLASH_ERROR = 'danger';
 const FLASH_WARNING = 'warning';
 const FLASH_SUCCESS = 'success';
 const FLASH_INFO = 'info';
+
+const APP_URL = 'http://notesystem.loc/';

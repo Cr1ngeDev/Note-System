@@ -1,0 +1,40 @@
+version: '3.9'
+networks:
+  network1:
+    name: network1
+
+services:
+  web:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./www/nginx/notes:/var/www/nginx/notes
+    links:
+      - php-fpm
+    networks:
+      - network1
+  php-fpm:
+    build: .
+    networks:
+      - network1
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE:
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      - network1
+
+  composer:
+    image: composer:latest
+    container_name: composer
+    volumes:
+      - /var/www/nginx/notes:/var/www/nginx/notes
+    working_dir: /var/www/nginx/notes

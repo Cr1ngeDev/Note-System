@@ -14,7 +14,7 @@
                                         <button onclick="showDropdown()" style="background-color: #d08eb0" class="dropbtn">My account</button>
                                         <div id="Dropdown" class="dropdown-content">
                                                 <a href="/profile">My Profile</a>
-                                                <a href="#about">Profile settings</a>
+                                                <a href="/profile">Profile settings</a>
                                                 <a href="/logout">Log out</a>
                                         </div>
                                 </div>
@@ -34,9 +34,6 @@
                                         </li>
                                         <li>
                                                 <a href="/profile" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Personal Info</a>
-                                        </li>
-                                        <li>
-                                                <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
                                         </li>
                                 </ul>
                         </div>

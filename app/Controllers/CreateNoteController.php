@@ -7,7 +7,6 @@ $header = "Create Note";
 $errors = [];
 
 if(is_post_request()) {
-    $pdo = connect();
 
     $title = $_POST['title'] ?? null;
     $content = $_POST['content'];
@@ -31,6 +30,7 @@ if(is_post_request()) {
     $createdAt = $time->format('Y-m-d G:i:s');
     $user_id = getFromSession('user', 'user_id')[0];
     try{
+        $pdo = connect();
         $pdo->beginTransaction();
         set_query($pdo,"INSERT INTO note_preview(note_name, user_id, createdAt) VALUES (:note_name, :user_id, :createdAt)",
             [
@@ -50,6 +50,8 @@ if(is_post_request()) {
     } catch (PDOException $e) {
         $pdo->rollBack();
         die("DB error: " . $e->getMessage());
+    } finally {
+        $pdo = null;
     }
 
 }

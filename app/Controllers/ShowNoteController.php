@@ -13,9 +13,11 @@ if (is_get_request()){
             ':user_id' => $user_id,
             ':noteId' => $noteId
         ])->fetch(PDO::FETCH_ASSOC);
-    $noteData = $stmt;
-    $stmt = null;
+
+    $noteData = findOrFail($stmt);
+    $pdo = null;
     $_SESSION['noteData'] = [
+        'note_id'       => $noteId,
         'note_name'     => $noteData['note_name'],
         'text'          => $noteData['text']
     ];

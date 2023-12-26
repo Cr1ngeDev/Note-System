@@ -11,6 +11,7 @@ function saveUser(array $userData): bool
         $pdo->beginTransaction();
         set_query($pdo, "INSERT INTO user($fields) VALUES($columns)", $userData)->errorInfo();
         $pdo->commit();
+        $pdo = null;
         return true;
     } catch(PDOException $e){
         $pdo->rollBack();

@@ -9,4 +9,7 @@ return [
     '/ahh-another-user'          => CONTROLLER_DIR . 'RegisterController.php',
     '/login'                     => CONTROLLER_DIR . 'LoginController.php',
     '/logout'                    => KERNEL_DIR     . 'Auth/logout.php',
+    '/profile'                   => CONTROLLER_DIR . 'PersonalPageController.php',
+    '/reset/send-email'          => KERNEL_DIR     . 'Auth/EmailChangePassword.php',
+    '/reset/new-password'        => CONTROLLER_DIR . 'ResetPasswordController.php'
 ];
