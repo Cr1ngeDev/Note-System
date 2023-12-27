@@ -118,7 +118,9 @@ function flash(string $name = '', string $message = '', string $type = '') :void
 
 function create_flash_message($name, $message, $type): void
 {
-    session_start();
+    if(session_status() != PHP_SESSION_ACTIVE){
+        session_start();
+    }
     if(isset($_SESSION[FLASH][$name])){
         unset($_SESSION[FLASH][$name]);
     }

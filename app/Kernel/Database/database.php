@@ -4,7 +4,7 @@ function get_db_config() :string
 {
     $config = [
         'dbname' => 'notes',
-        'host'   => 'localhost',
+        'host'   => 'mysql', //mysql-service
         //'port' => '3306' //3306
     ];
    return  "mysql:" . http_build_query($config, '', ';');
@@ -13,8 +13,8 @@ function get_db_config() :string
 function connect() :PDO
 {
     $dsn = get_db_config();
-    $user = 'root';
-    $password = '0375Ihor_';
+    $user = 'ihor';
+    $password = 'Ihorbase75_';
     try {
         $pdo = new PDO($dsn, $user, $password);
 

@@ -12,7 +12,7 @@ function validate(array $value, array $rules) :array
             $ruleName = $parameters[0];
             $ruleValue = $parameters[1] ?? null;
 
-            $params_for_sql = explode("|", $ruleValue);
+            $params_for_sql = explode("|", (string)$ruleValue);
             $tableName = $params_for_sql[0] ?? null;
             $column = $params_for_sql[1] ?? null;
 

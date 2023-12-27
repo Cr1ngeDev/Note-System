@@ -1,40 +1,45 @@
-version: '3.9'
+version: '3'
 networks:
-  network1:
-    name: network1
+  nginx-php-mysql:
 
 services:
   web:
-    container_name: nginx
-    image: nginx:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "80:80"
-    volumes:
-      - ./www/nginx/notes:/var/www/nginx/notes
-    links:
-      - php-fpm
+    depends_on:
+      - php-service
+      - mysql-service
     networks:
-      - network1
-  php-fpm:
-    build: .
+      - nginx-php-mysql
+  php-service:
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    ports:
+      - "9000:9000"
     networks:
-      - network1
-  mysql:
+      - nginx-php-mysql
+  mysql-service:
     image: mysql:latest
     container_name: mysql
     environment:
-      MYSQL_ROOT_PASSWORD:
-      MYSQL_DATABASE:
+      MYSQL_ROOT_PASSWORD: 0375Ihor_
+      MYSQL_ROOT_HOST: localhost
+      MYSQL_PASSWORD: Ihorbase75_
+      MYSQL_USER: ihor
+      MYSQL_DATABASE: notes
     ports:
-      - "3307:3306"
-    volumes:
-      - ./mysql_data:/var/lib/mysql
+      - "33306:3306"
+    restart: always
     networks:
-      - network1
+      - nginx-php-mysql
 
   composer:
     image: composer:latest
     container_name: composer
     volumes:
-      - /var/www/nginx/notes:/var/www/nginx/notes
-    working_dir: /var/www/nginx/notes
+      - .:/var/www/project
+    working_dir: /var/www/project
