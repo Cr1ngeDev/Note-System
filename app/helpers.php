@@ -24,7 +24,7 @@ function getFromSession(...$keys)
     $currentSession = $_SESSION;
     foreach ($keys as $key) {
         if (!isset($currentSession[$key])) {
-            return false; // Key not found in the session
+            return false;
         }
         $currentSession = $currentSession[$key];
     }

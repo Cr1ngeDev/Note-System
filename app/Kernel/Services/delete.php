@@ -16,6 +16,5 @@ $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 if($id){
     deleteNote($id);
-    sleep(0.5);
     header("Location: /");
 }

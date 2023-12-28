@@ -28,7 +28,7 @@ if(is_post_request()) {
 
     $time = new DateTime();
     $createdAt = $time->format('Y-m-d G:i:s');
-    $user_id = getFromSession('user', 'user_id')[0];
+    $user_id = getFromSession('user', 'user_id');
     try{
         $pdo = connect();
         $pdo->beginTransaction();
