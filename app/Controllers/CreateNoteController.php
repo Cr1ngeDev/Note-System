@@ -29,8 +29,8 @@ if(is_post_request()) {
     $time = new DateTime();
     $createdAt = $time->format('Y-m-d G:i:s');
     $user_id = getFromSession('user', 'user_id');
+    $pdo = connect();
     try{
-        $pdo = connect();
         $pdo->beginTransaction();
         set_query($pdo,"INSERT INTO note_preview(note_name, user_id, createdAt) VALUES (:note_name, :user_id, :createdAt)",
             [
