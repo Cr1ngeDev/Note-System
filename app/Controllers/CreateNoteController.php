@@ -6,22 +6,22 @@ require 'app/Kernel/Validation/validationFunction.php';
 $header = "Create Note";
 $errors = [];
 
-if(is_post_request()) {
+if (is_post_request()) {
 
     $title = $_POST['title'] ?? null;
     $content = $_POST['content'];
 
     $data = [
         'title' => trim($_POST['title']),
-        'text'  => rtrim(ltrim($_POST['content']))
+        'text' => rtrim(ltrim($_POST['content']))
     ];
     $rules = [
         'title' => ['max:65'],
-        'text'  => ['required', 'max:5000']
+        'text' => ['required', 'max:5000']
     ];
 
     $errors = validate($data, $rules);
-    if(!empty($errors)){
+    if (!empty($errors)) {
         redirect_with('/create', $errors);
         exit;
     }
@@ -30,12 +30,12 @@ if(is_post_request()) {
     $createdAt = $time->format('Y-m-d G:i:s');
     $user_id = getFromSession('user', 'user_id');
     $pdo = connect();
-    try{
+    try {
         $pdo->beginTransaction();
-        set_query($pdo,"INSERT INTO note_preview(note_name, user_id, createdAt) VALUES (:note_name, :user_id, :createdAt)",
+        set_query($pdo, "INSERT INTO note_preview(note_name, user_id, createdAt) VALUES (:note_name, :user_id, :createdAt)",
             [
                 ':note_name' => $title,
-                ':user_id'   => $user_id,
+                ':user_id' => $user_id,
                 ':createdAt' => $createdAt
             ]
         );
@@ -49,7 +49,7 @@ if(is_post_request()) {
         header("Location: /");
     } catch (PDOException $e) {
         $pdo->rollBack();
-        die("DB error: " . $e->getMessage());
+        die("DB Error: " . $e->getMessage());
     } finally {
         $pdo = null;
     }
