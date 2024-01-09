@@ -3,19 +3,19 @@ session_start();
 require KERNEL_DIR . 'Auth/verify.php';
 require KERNEL_DIR . 'Validation/validationFunction.php';
 
-if(is_get_request()){
+if (is_get_request()) {
     $code = urldecode($_GET['ver'] ?? null);
-    $uid  = urldecode(filter_input(INPUT_GET, 'uid', FILTER_VALIDATE_INT) ?? 0);
-
-    if(verifyRequest($code, $uid)){
+    $uid = urldecode(filter_input(INPUT_GET, 'uid', FILTER_VALIDATE_INT) ?? 0);
+    if (verifyRequest($code, $uid)) {
+        $_SESSION['uid'] = $uid;
+        [$errors] = session_flash('errors');
         require VIEW_DIR . 'NewPasswordPage.php';
     } else {
         require VIEW_DIR . 'MiddlePages/invalid.php';
     }
     exit;
 }
-
-if(is_post_request()){
+if (is_post_request()) {
     $session_data = session_flash();
 
     $inputData = [
@@ -28,26 +28,20 @@ if(is_post_request()){
     ];
 
     $errors = validate($inputData, $rules);
-    $user_id = $session_data['user']['user_id'];
-
-    $password = getUserInfoBy(['password'], [':user_id' => $user_id], 'user_id');
-    if(password_verify($inputData['password'], $password['password'])){
-        $errors[] = 'Your new password must not be the same as the previous one!';
+    if (!empty($errors)) {
+        redirect_with($_SERVER['REQUEST_URI'], ['errors' => $errors]);
     }
-    try {
-        $pdo = connect();
-        $pdo->beginTransaction();
-        $sql = "UPDATE user SET password = :newPassword WHERE user_id = :user_id";
-        $change = set_query($pdo, $sql, [':newPassword' => password_hash($inputData['password'], PASSWORD_BCRYPT), ':user_id' => $user_id]);
-        $pdo->commit();
-        if($change !== false){
-            $message = 'You password has been successfully updated. Please re-login yo your account';
-            $pdo = null;
-            redirect_with_message('/login', 'Relogin', $message, FLASH_SUCCESS);
-        }
-    } catch (Exception $e){
-        $pdo->rollBack();
-        echo $e->getMessage();
+
+    $user_id = $session_data['uid'];
+    $password = getUserInfoBy(['password'], [':user_id' => $user_id], 'user_id');
+    if (password_verify($inputData['password'], $password['password'])) {
+        $errors[] = 'Your new password must not be the same as the previous one!';
+        redirect_with($_SERVER['REQUEST_URI'], ['errors' => $errors]);
+    }
+    if (updatePasswordDB($inputData['password'], $user_id)) {
+        deleteFromVerifyDB($user_id);
+        $message = 'You password has been successfully updated. Please re-login yo your account';
+        redirect_with_message('/login', 'Relogin', $message, FLASH_SUCCESS);
     }
 }
 

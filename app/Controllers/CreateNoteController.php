@@ -6,9 +6,10 @@ require 'app/Kernel/Validation/validationFunction.php';
 $header = "Create Note";
 $errors = [];
 
+
 if (is_post_request()) {
 
-    $title = $_POST['title'] ?? null;
+    $title = $_POST['title'] ?? '';
     $content = $_POST['content'];
 
     $data = [
@@ -29,30 +30,9 @@ if (is_post_request()) {
     $time = new DateTime();
     $createdAt = $time->format('Y-m-d G:i:s');
     $user_id = getFromSession('user', 'user_id');
-    $pdo = connect();
-    try {
-        $pdo->beginTransaction();
-        set_query($pdo, "INSERT INTO note_preview(note_name, user_id, createdAt) VALUES (:note_name, :user_id, :createdAt)",
-            [
-                ':note_name' => $title,
-                ':user_id' => $user_id,
-                ':createdAt' => $createdAt
-            ]
-        );
 
-        $lastConnectedId = $pdo->lastInsertId();
-
-        set_query($pdo, "INSERT INTO note_content(text, preview_id) VALUES (:text, :preview_id)",
-            ['text' => $content, 'preview_id' => $lastConnectedId]);
-
-        $pdo->commit();
+    if (saveNoteDB($user_id, $createdAt, $content, $title)) {
         header("Location: /");
-    } catch (PDOException $e) {
-        $pdo->rollBack();
-        die("DB Error: " . $e->getMessage());
-    } finally {
-        $pdo = null;
     }
-
 }
 require VIEW_DIR . 'CreateNoteView.php';

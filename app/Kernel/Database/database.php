@@ -136,3 +136,129 @@ function getUserInfoBy(array $columns, array $preparedData, ...$where): array|fa
     }
     return $user;
 }
+
+function saveNoteDB(int $user_id, string $createdAt, string $content, string $title = ''): bool
+{
+    $pdo = connect();
+    $flag = false;
+    try {
+        $pdo->beginTransaction();
+        set_query($pdo, "INSERT INTO note_preview(note_name, user_id, createdAt) VALUES (:note_name, :user_id, :createdAt)",
+            [
+                ':note_name' => $title,
+                ':user_id' => $user_id,
+                ':createdAt' => $createdAt
+            ]
+        );
+
+        $lastConnectedId = $pdo->lastInsertId();
+
+        set_query($pdo, "INSERT INTO note_content(text, preview_id) VALUES (:text, :preview_id)",
+            ['text' => $content, 'preview_id' => $lastConnectedId]);
+
+        $pdo->commit();
+        $flag = true;
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        exit("DB Error: " . $e->getMessage());
+    } finally {
+        $pdo = null;
+    }
+    return $flag;
+}
+
+function updateNoteDB(int $user_id, string $createdAt, string $noteId, string $content, string $title = ''): bool
+{
+    $pdo = connect();
+    $flag = false;
+    try {
+        $pdo->beginTransaction();
+        set_query($pdo, "UPDATE note_preview SET note_name = :note_name, user_id = :user_id, createdAt = :createdAt WHERE id = :id",
+            [
+                ':note_name' => $title,
+                ':user_id' => $user_id,
+                ':createdAt' => $createdAt,
+                ":id" => $noteId
+            ]
+        );
+
+        set_query($pdo, "UPDATE note_content SET text = :text WHERE preview_id = :preview_id",
+            ['text' => $content, 'preview_id' => $noteId]);
+
+        $pdo->commit();
+        $flag = true;
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        die("DB error: " . $e->getMessage());
+    } finally {
+        $pdo = null;
+    }
+    return $flag;
+}
+
+function updateUserInfo(array $difference, int $user_id): bool
+{
+    $flag = false;
+    $pdo = connect();
+    try {
+        $diff_keys = array_keys($difference);
+        $fields = implode(', ', array_map(fn($diff_keys) => "$diff_keys = :$diff_keys", $diff_keys));
+        $sql = "UPDATE user SET $fields WHERE user_id = :user_id";
+
+        $values = array_merge($difference, ['user_id' => $user_id]);
+
+        $pdo->beginTransaction();
+        $is_updated = set_query($pdo, $sql, $values);
+        if ($is_updated !== false) {
+            $pdo->commit();
+            $flag = true;
+        } else {
+            $pdo->rollBack();
+        }
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        die($e->getMessage());
+    } finally {
+        $pdo = null;
+    }
+    return $flag;
+}
+
+function deleteUser(int $user_id): void
+{
+    $pdo = connect();
+    try {
+        $pdo->beginTransaction();
+        $sql = "DELETE FROM user WHERE user_id = :user_id";
+        set_query($pdo, $sql, [':user_id' => $user_id]);
+        $pdo->commit();
+        session_flash('user');
+        session_flash('TOKEN');
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        die($e->getMessage());
+    } finally {
+        $pdo = null;
+    }
+}
+
+function updatePasswordDB(string $password, int $user_id): bool
+{
+    $pdo = connect();
+    $flag = false;
+    try {
+        $pdo->beginTransaction();
+        $sql = "UPDATE user SET password = :newPassword WHERE user_id = :user_id";
+        $change = set_query($pdo, $sql, [':newPassword' => password_hash($password, PASSWORD_BCRYPT), ':user_id' => $user_id]);
+        if ($change !== false) {
+            $pdo->commit();
+            $flag = true;
+        }
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        echo $e->getMessage();
+    } finally {
+        $pdo = null;
+    }
+    return $flag;
+}

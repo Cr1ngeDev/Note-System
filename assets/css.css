@@ -20,6 +20,7 @@
 .lockIcon:hover {
     cursor: pointer;
 }
+
 .unlockIcon {
     display: none;
     width: 1.30em;
@@ -27,9 +28,11 @@
     color: green;
     float: right;
 }
+
 .unlockIcon:hover {
     cursor: pointer;
 }
+
 .dropbtn:hover {
     background-color: #283593; /* Замените на ваш цвет hover:bg-primary-800 */
 }
@@ -50,6 +53,7 @@
 .dropbtn.dark:focus {
     ring-color: #4caf50; /* Замените на ваш цвет dark:focus:ring-primary-800 */
 }
+
 /* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
     background-color: #2980B9;
@@ -67,7 +71,7 @@
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     font-size: 0.875rem;
 }
@@ -81,11 +85,13 @@
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
-    display:block;
+    display: block;
 }
 
 .modal {
@@ -135,4 +141,64 @@
 button {
     padding: 10px;
     font-size: 16px;
+}
+
+.custom-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 1rem 1rem 0.75rem 0.75rem;
+    border-radius: 8px;
+    width: 100%;
+    transition: all 0.3s ease;
+    color: #a9aeb6;
+    background-color: #1f2937;
+}
+
+.custom-button.active {
+    background-color: #1c64f2;
+    color: #fff;
+
+    .icon {
+        fill: white;
+    }
+}
+
+.icon {
+    width: 1rem; /* Equivalent to 4px assuming 1rem = 16px by default */
+    height: 1rem; /* Equivalent to 4px */
+    margin-right: 0.5rem; /* Equivalent to 2px */
+    color: #888; /* Hex color for gray, you can adjust it to your preference */
+}
+
+#profileTab.custom-button:hover,
+#passTab.custom-button:hover,
+#deleteTab.custom-button:hover {
+    color: #fff;
+}
+
+.dark #passTab.custom-button,
+.dark #deleteTab.custom-button {
+    background-color: #333;
+    color: #fff;
+}
+
+.dark #passTab.custom-button:hover,
+.dark #deleteTab.custom-button:hover {
+    background-color: #444;
+}
+
+.custom-box {
+    visibility: hidden;
+    border-left: none;
+    float: left;
+    padding: 24px; /* p-6 is equivalent to padding of 6, so 6 * 4 = 24px */
+    background-color: #1f2937; /* bg-gray-50 */
+    color: #cbc9c9; /* text-medium text-gray-500 */
+    border-radius: 8px; /* rounded-lg */
+    width: 70%;
+}
+
+.dark .custom-box {
+    color: #ccc; /* dark:text-gray-400 */
+    background-color: #333; /* dark:bg-gray-800 */
 }

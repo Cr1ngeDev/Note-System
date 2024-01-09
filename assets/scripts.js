@@ -48,16 +48,18 @@ function openModal() {
     modal.style.animation = "fadeIn 0.5s";
     fetchData();
 }
+
 // Закрыть модальное окно
 function closeModal() {
     var modal = document.getElementById("myModal");
     modal.style.display = "none";
 }
+
 function showDropdown() {
     document.getElementById("Dropdown").classList.toggle("show");
 }
 
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (!event.target.matches('.dropbtn')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
         var i;
@@ -69,19 +71,40 @@ window.onclick = function(event) {
         }
     }
 }
+
 function fetchData() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'app/Kernel/Services/getCheckCode.php', true);
     var labelElement = document.getElementById('checkCode');
-    xhr.onreadystatechange = function (){
-        if(xhr.readyState === 4 && xhr.status === 200){
-            if(labelElement){
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            if (labelElement) {
                 var regex = /"(.*?)"/;
                 var result = xhr.responseText.match(regex);
                 labelElement.innerHTML = result[1];
             }
         }
     }
-    var codeValue = labelElement.innerHTML;
-    xhr.send('code=' + encodeURIComponent(codeValue));
+    xhr.send();
 }
+
+function openTab(event, tabName) {
+    var i, tabcontent, tablinks;
+
+    tabcontent = document.getElementsByClassName("custom-box");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        tabcontent[i].style.visibility = 'visible';
+    }
+
+    tablinks = document.getElementsByClassName("custom-button");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace("active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    event.currentTarget.className += " active";
+}
+
+window.onload = function () {
+    document.getElementById("profileTab").click();
+};
