@@ -1,5 +1,4 @@
 <?php
-header("Cache-Control: private, must-revalidate, max-age=3600", true);
 session_start();
 requireLogin();
 
