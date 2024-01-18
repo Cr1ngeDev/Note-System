@@ -3,6 +3,8 @@ require KERNEL_DIR . 'Validation/validationFunction.php';
 require KERNEL_DIR . 'Auth/register.php';
 session_start();
 
+notAllowedForLoggedUser('/ahh-another-user');
+
 if (is_post_request()) {
     $userData = [
         'firstname' => trim($_POST['firstname']),

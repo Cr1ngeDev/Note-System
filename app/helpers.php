@@ -22,6 +22,14 @@ function isUserLoggedIn(): bool
     return isset($_SESSION['user']);
 }
 
+function notAllowedForLoggedUser(string $url = ''): void
+{
+    $notAllow = ['/login', '/ahh-another-user'];
+    if (isUserLoggedIn() && in_array($url, $notAllow)) {
+        redirect('/', 302);
+    }
+}
+
 function getFromSession(...$keys)
 {
     $currentSession = $_SESSION;
