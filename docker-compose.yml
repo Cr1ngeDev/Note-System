@@ -28,9 +28,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 0375Ihor_
       MYSQL_ROOT_HOST: localhost
-      MYSQL_PASSWORD: Ihorbase75_
-      MYSQL_USER: ihor
+      MYSQL_PASSWORD: Devbase75_ #Ihorbase75_
+      MYSQL_USER: dev #ihor
       MYSQL_DATABASE: notes
+    volumes:
+      - ./database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     ports:
       - "33306:3306"
     restart: always
