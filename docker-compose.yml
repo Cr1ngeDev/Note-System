@@ -4,7 +4,8 @@ networks:
 
 services:
   web:
-    image: nginx:latest
+    build:
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     volumes:
