@@ -5,11 +5,10 @@ networks:
 services:
   web:
     build:
+      context: .
       dockerfile: Dockerfile
     ports:
-      - "80:80"
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - "8080:80"
     depends_on:
       - php-service
       - mysql-service

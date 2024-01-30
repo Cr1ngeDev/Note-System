@@ -89,6 +89,7 @@ function fetchData() {
 }
 
 function openTab(event, tabName) {
+
     var i, tabcontent, tablinks;
 
     tabcontent = document.getElementsByClassName("custom-box");
