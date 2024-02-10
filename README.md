@@ -1,7 +1,6 @@
 # Note System
 
-A small website that allows you to create your personal notes.
-(Pure PHP without OOP and frameworks) 
+A small website that allows you to create your personal notes. Pure PHP without OOP and frameworks.
 
 Done:
 <li>Connecting a MySQL database using PDO</li>
