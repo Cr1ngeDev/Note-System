@@ -4,7 +4,7 @@ function get_db_config(): string
 {
     $config = [
         'dbname' => 'notes',
-        'host' => 'localhost', //mysql
+        'host' => 'mysql', //mysql | localhost
         //'port' => '3306' //3306
     ];
     return "mysql:" . http_build_query($config, '', ';');
